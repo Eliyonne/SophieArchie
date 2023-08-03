@@ -29,7 +29,7 @@ function LogOut(){
     cleaninterface();
 }
 
-//On appel Login à chaque chargement de page
+//On appel Login à chaque chargement de page (futur main)
 Login()
 filterbuilder();
 gallerybuilder();
@@ -71,11 +71,53 @@ function modalup() {
     const modal__gallerie = document.querySelector(".modal__gallerie");
     modal__gallerie.innerHTML="";
     gallerybuildermodale();
+    let addgallerie = document.querySelector(".btn__ajout__gallerie");
+    let modalwork = document.querySelector(".modal__gallerie__wrapper");
+    let modalimage = document.querySelector(".modal__ajout__wrapper");
+    const navback = document.querySelector(".back-icon");
+    const navbar = document.querySelector(".modal__gallerie__nav");
+    const closebutton = document.querySelector(".close-icon");
+    closebutton.addEventListener("click", modalclose);
+    navback.addEventListener("click", () => {
+        modalwork.style.display = "flex";
+        modalimage.style.display = "none";
+        navback.style.display = "none";
+        navbar.classList.remove("justify-space");
+    })
+    addgallerie.addEventListener("click", () => {
+        modalwork.style.display = "none";
+        modalimage.style.display = "flex";
+        navback.style.display = "flex";
+        navbar.classList.add("justify-space");
+        let select = document.getElementById("category");
+        let title_input = document.getElementById("title");
+        select.selectedIndex = 0;
+        title_input.value = '';
+
+    })
     window.onclick = function(event) {
         if (event.target == modal) {
-          modal.style.display = "none";
+            modal.style.display = "none";
+            modalwork.style.display = "flex";
+            modalimage.style.display = "none";
+            navback.style.display = "none";
+            navbar.classList.remove("justify-space");
         }
-      }
+    }
+}
+
+//fermeture de la modale
+function modalclose() {
+    const modal = document.querySelector("#modal");
+    const modalwork = document.querySelector(".modal__gallerie__wrapper");
+    const modalimage = document.querySelector(".modal__ajout__wrapper");
+    const navback = document.querySelector(".back-icon");
+    const navbar = document.querySelector(".modal__gallerie__nav");
+    modal.style.display = "none";
+    modalwork.style.display = "flex";
+    modalimage.style.display = "none";
+    navback.style.display = "none";
+    navbar.classList.remove("justify-space");
 }
 
 //Retourne à l'état déco
@@ -94,15 +136,14 @@ function cleaninterface() {
 async function fetchwork() {
     const reception = await fetch('http://localhost:5678/api/works');
     const works = await reception.json();
-    // console.log(works);
-    return works
+    return works;
 }
 
 //récupération des catégories
 async function fetchcate() {
     const catreception = await fetch('http://localhost:5678/api/categories');
     const catarray = await catreception.json();
-    const catlist = new Set(catarray) //inutile mais on l'ajoute pour faire plaisir
+    const catlist = new Set(catarray) 
     console.log(catlist);
     let uniquecatlist = [...catlist];
     return uniquecatlist;
@@ -171,12 +212,45 @@ async function gallerybuildermodale() {
                 work.innerHTML = 
                 `<div class="modal__elements">
                 <img src = "/FrontEnd/assets/icons/Move.svg" class="modal-move">
-                <img src= "/FrontEnd/assets/icons/bin.svg" class="modal-delete">
+                <img src= "/FrontEnd/assets/icons/bin.svg" class="modal-delete" data-id=${workslist[i].id}>
                 </div>
                 <img src=${workslist[i].imageUrl} alt=${workslist[i].title} class="modal__figure">
                 <figcaption><p>editer</p></figcaption>`
                 work.classList.add("modal__work")
                 document.querySelector(".modal__gallerie").appendChild(work);
+                //on a déplacer supprimer()
             };
+    supprimer();
+
 }
+
+//On prépare la suppréssion
+function supprimer() {
+    const poubelle = document.querySelectorAll(".modal-delete");
+    poubelle.forEach((poubelle) => {
+        poubelle.addEventListener("click", () => {
+        let id = poubelle.dataset.id;
+        fetch(`http://localhost:5678/api/works/${id}`, {
+            method: "DELETE",
+            headers: {
+            Authorization: `Bearer ${logged}`,
+            },
+        }).then((response) => {
+            if (response.ok) {
+            poubelle.closest(".modal-work").remove();
+            for (let i = 0; i < workslist.length; i++) {
+                if (workslist[i].id == id) {
+                workslist.splice(i, 1);
+                if (workslist.length < 1) {
+                    let modal = document.querySelector("#modal");
+                    modal.style.display = "none";
+                    }
+                }
+                gallerybuildermodale();
+            }
+        }
+        });
+    });
+    });
+} 
 

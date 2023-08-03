@@ -190,6 +190,10 @@ li:hover {
 	padding: 0 30px;
 }
 
+.justify-space{
+	justify-content: space-between;
+}
+
 .back-icon {
 	height: 13px;
 	cursor: pointer;
@@ -246,23 +250,23 @@ li:hover {
 }
 
 .modal-move {
-	width: 15px;
-	height: 15px;
+	width: 16px;
+	height: 16px;
 	position: absolute;
 	cursor: pointer;
-	margin-left: 40px;
+	margin-left: 30px;
 	margin-top: 8px;
 	border-radius: 2px;
 	display: none;
 	z-index: 10;
-
 }
 
 .modal-delete {
+	padding: 2px;
 	width: 12px;
 	height: 12px;
 	position: absolute;
-	margin-left: 47px;
+	margin-left: 50px;
 	margin-top: 8px;
 	cursor: pointer;
 	border-radius: 2px;
@@ -298,6 +302,128 @@ li:hover {
 	padding: 8px;
 	cursor: pointer;
 }
+
+.modal a {
+	font-size: 14px;
+	font-weight: 400;
+	font-style: normal;
+	color:#D65353;
+	cursor: pointer;
+}
+
+.modal__ajout__wrapper {
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 95px;
+}
+
+#modal__ajout__work {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.modal__ajout__wrapper .ajout__image{
+	height: 170px;
+	background-color: #E8F1F6;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 25px;
+}
+
+.img-icon {
+	margin-bottom: 25px;
+	width: 60px;
+	margin-top: 10px;
+}
+
+.modal__ajout__wrapper label[for="image"] {
+	width: 140px;
+	margin-bottom: 5px;
+	font-size: 13px;
+	font-weight: 600;
+	font-family: 'Work Sans';
+	background-color: #CBD6DC;
+	border: none;
+	border-radius: 50px;
+	color: #306685;
+	padding: 10px;
+	width: 135px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.modal__ajout__wrapper .ajout__image p {
+	font-size: 10px;
+	font-weight: 400;
+	font-family: 'Work Sans';
+}
+
+.modal__ajout__wrapper label {
+	font-size: 13px;
+	font-weight: 600;
+	color: #3D3D3D;
+	font-family: 'Work Sans';
+	margin-bottom: 10px;
+}
+
+.modal__ajout__wrapper input, .modal__ajout__wrapper select {
+	padding: 0 17px;
+	font-size: 13px;
+	color: #444444;
+	height: 50px;
+	background-color: #FFFFFF;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 20px; 
+	color: #000000;
+}
+
+.modal__ajout__wrapper select {
+	appearance: none;
+}
+
+.arrow-down {
+	position: absolute;
+	height: 6px;
+    width: 12px;
+    margin-top: 334px;
+    margin-left: 333px;
+	pointer-events: none;
+}
+
+.modal__ajout__wrapper option {
+	font-size: 14px;
+	font-weight: 400;
+	font-family: 'Work Sans';
+}
+
+.modal__ajout__wrapper hr {
+	width: 100%;
+	border: 1px solid #B3B3B3;
+	margin-top: 20px;
+	margin-bottom: 25px;
+}
+
+#work-submit {
+	margin: 0;
+	width: 55%;
+	font-size: 14px;
+	font-weight: 700;
+	font-family: 'Syne';
+	color:#FFFFFF;
+	background-color: #A7A7A7;
+	border-radius: 60px;
+	border: #1D6154;
+	padding: 8px;
+	cursor: pointer;
+	height: 30px;
+	align-self: center;
+}
+
 
 #introduction {
 	display: flex;

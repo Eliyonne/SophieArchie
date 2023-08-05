@@ -340,6 +340,13 @@ li:hover {
 	margin-top: 10px;
 }
 
+.image__uploader {
+	object-fit: contain;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
 .modal__ajout__wrapper label[for="image"] {
 	width: 140px;
 	margin-bottom: 5px;

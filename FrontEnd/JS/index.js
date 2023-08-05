@@ -16,7 +16,6 @@ function Login() {
         changeinterface_gallerie()
         const filter = document.querySelector(".filter");
         filter.style.display = "none"
-
     }
 }
 
@@ -65,7 +64,7 @@ function modalup() {
     console.log("bla");
     const modal = document.querySelector("#modal");
     const modal__ajout__wrapper = document.querySelector(".modal__ajout__wrapper");
-    //inserer le if ici
+    //inserer le if ici pour les différents targets de la modale (titre, photo avatar)
     modal__ajout__wrapper.style.display = "none";
     modal.style.display = "flex";
     const modal__gallerie = document.querySelector(".modal__gallerie");
@@ -95,7 +94,7 @@ function modalup() {
         title_input.value = '';
 
     })
-    window.onclick = function(event) {
+    window.onclick = function(event) { //peut-être à refaire
         if (event.target == modal) {
             modal.style.display = "none";
             modalwork.style.display = "flex";
@@ -253,4 +252,42 @@ function supprimer() {
     });
     });
 } 
+
+//Fonction d'ajout
+//on upload l'image ici
+const fileUploadInput = document.querySelector("#image");
+fileUploadInput.addEventListener("change", previewimage);
+
+function previewimage(e) {
+    const fileExtension = /\.(jpe?g|png)$/i; //on prépare pour la vérif d'extension
+    if (
+        e.target.files.length === 0 || //on test si le fichier n'est pas égale à 0 ou si son nom contient les éléments d'extensions
+        !fileExtension.test(e.target.files[0].name)
+        ) {
+        return;
+        }
+}
+
+const fichier_image = e.target.files[0];
+fileReader = new FileReader();
+fileReader.readAsDataURL(fichier_image);
+fileReader.addEventListener("load", (e) => afficherpreview(e, fichier_image));
+
+//affichage de la preview (à modifier)
+function afficherpreview(e, fichier_image) {
+    const ajoutimage = document.querySelector(".ajout__image");
+    let picture = document.createElement("img");
+    picture.classList.add("image__uploader");
+    picture.src = e.target.result;
+    const addPhotoPicture = document.querySelector(".addphoto > img");
+    const addPhotoLabel = document.querySelector(".addphoto > label");
+    const addPhotoInput = document.querySelector(".addphoto > input");
+    const addPhotoParagraph = document.querySelector(".addphoto > p");
+    addPhotoPicture.style.display = "none";
+    addPhotoLabel.style.display = "none";
+    addPhotoInput.style.display = "none";
+    addPhotoParagraph.style.display = "none";
+    addPhoto.appendChild(picture);
+}
+
 

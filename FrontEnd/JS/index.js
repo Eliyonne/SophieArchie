@@ -1,7 +1,8 @@
 let workslist;
 let workcategories;
-let logged
-let userlogin
+let logged;
+let userlogin;
+
 
 //Login verificateur
 function Login() {
@@ -32,7 +33,6 @@ function LogOut(){
 Login()
 filterbuilder();
 gallerybuilder();
-
 
 
 //Moddification de la page en utilisateur connecté
@@ -70,18 +70,32 @@ function modalup() {
     const modal__gallerie = document.querySelector(".modal__gallerie");
     modal__gallerie.innerHTML="";
     gallerybuildermodale();
-    let addgallerie = document.querySelector(".btn__ajout__gallerie");
+    // formsend();
+    // deleteAll();
+    const addgallerie = document.querySelector(".btn__ajout__gallerie");
     let modalwork = document.querySelector(".modal__gallerie__wrapper");
     let modalimage = document.querySelector(".modal__ajout__wrapper");
     const navback = document.querySelector(".back-icon");
     const navbar = document.querySelector(".modal__gallerie__nav");
     const closebutton = document.querySelector(".close-icon");
+    const imageselector = document.querySelector(".img-icon");
+    const ajoutPhotoLabel = document.querySelector(".ajout__image > label");
+    const ajoutPhotoInput = document.querySelector(".ajout__image > input");
+    const ajoutPhotoParagraph = document.querySelector(".ajout__image > p");
     closebutton.addEventListener("click", modalclose);
     navback.addEventListener("click", () => {
         modalwork.style.display = "flex";
         modalimage.style.display = "none";
         navback.style.display = "none";
         navbar.classList.remove("justify-space");
+        imageselector.style.display = "block";
+        ajoutPhotoLabel.style.display = "block";
+        ajoutPhotoInput.style.display = "none";
+        ajoutPhotoParagraph.style.display = "block";
+        const imageuploader = document.getElementById("uploader");
+        if (imageuploader != null) {
+        imageuploader.remove();
+        };
     })
     addgallerie.addEventListener("click", () => {
         modalwork.style.display = "none";
@@ -92,15 +106,19 @@ function modalup() {
         let title_input = document.getElementById("title");
         select.selectedIndex = 0;
         title_input.value = '';
+        // formbuilder();
+        catoption();
 
     })
+
     window.onclick = function(event) { //peut-être à refaire
         if (event.target == modal) {
-            modal.style.display = "none";
-            modalwork.style.display = "flex";
-            modalimage.style.display = "none";
-            navback.style.display = "none";
-            navbar.classList.remove("justify-space");
+            // modal.style.display = "none";
+            // modalwork.style.display = "flex";
+            // modalimage.style.display = "none";
+            // navback.style.display = "none";
+            // navbar.classList.remove("justify-space");
+            modalclose();
         }
     }
 }
@@ -112,11 +130,25 @@ function modalclose() {
     const modalimage = document.querySelector(".modal__ajout__wrapper");
     const navback = document.querySelector(".back-icon");
     const navbar = document.querySelector(".modal__gallerie__nav");
+    const imageselector = document.querySelector(".img-icon");
+    const ajoutPhotoLabel = document.querySelector(".ajout__image > label");
+    const ajoutPhotoInput = document.querySelector(".ajout__image > input");
+    const ajoutPhotoParagraph = document.querySelector(".ajout__image > p");
     modal.style.display = "none";
     modalwork.style.display = "flex";
     modalimage.style.display = "none";
     navback.style.display = "none";
     navbar.classList.remove("justify-space");
+    imageselector.style.display = "block";
+    ajoutPhotoLabel.style.display = "block";
+    ajoutPhotoInput.style.display = "none";
+    ajoutPhotoParagraph.style.display = "block";
+    const imageuploader = document.getElementById("uploader");
+    if (imageuploader != null) {
+        imageuploader.remove();
+    }
+    
+
 }
 
 //Retourne à l'état déco
@@ -190,7 +222,7 @@ async function filterbuilder() {
             }
         })
     })
-
+    
 }
 
 //On crée la gallerie
@@ -261,33 +293,145 @@ fileUploadInput.addEventListener("change", previewimage);
 function previewimage(e) {
     const fileExtension = /\.(jpe?g|png)$/i; //on prépare pour la vérif d'extension
     if (
-        e.target.files.length === 0 || //on test si le fichier n'est pas égale à 0 ou si son nom contient les éléments d'extensions
-        !fileExtension.test(e.target.files[0].name)
+        e.target.files.length === 0 ||
+        !fileExtension.test(e.target.files[0].name) //on verifie si le nom porte la bonne extension "files[0]"
         ) {
         return;
         }
+
+    const fichier_image = e.target.files[0]; //files[0]
+    fileReader = new FileReader();
+    fileReader.readAsDataURL(fichier_image);
+    fileReader.addEventListener("load", (e) => afficherpreview(e));
 }
 
-const fichier_image = e.target.files[0];
-fileReader = new FileReader();
-fileReader.readAsDataURL(fichier_image);
-fileReader.addEventListener("load", (e) => afficherpreview(e, fichier_image));
+
 
 //affichage de la preview (à modifier)
-function afficherpreview(e, fichier_image) {
+function afficherpreview(e) {
     const ajoutimage = document.querySelector(".ajout__image");
     let picture = document.createElement("img");
+    picture.setAttribute("id", "uploader")
     picture.classList.add("image__uploader");
     picture.src = e.target.result;
-    const addPhotoPicture = document.querySelector(".addphoto > img");
-    const addPhotoLabel = document.querySelector(".addphoto > label");
-    const addPhotoInput = document.querySelector(".addphoto > input");
-    const addPhotoParagraph = document.querySelector(".addphoto > p");
-    addPhotoPicture.style.display = "none";
-    addPhotoLabel.style.display = "none";
-    addPhotoInput.style.display = "none";
-    addPhotoParagraph.style.display = "none";
-    addPhoto.appendChild(picture);
+    const ajoutPhotoImg = document.querySelector(".ajout__image > img");
+    const ajoutPhotoLabel = document.querySelector(".ajout__image > label");
+    const ajoutPhotoInput = document.querySelector(".ajout__image > input");
+    const ajoutPhotoParagraph = document.querySelector(".ajout__image > p");
+    ajoutPhotoImg.style.display = "none";
+    ajoutPhotoLabel.style.display = "none";
+    ajoutPhotoInput.style.display = "none";
+    ajoutPhotoParagraph.style.display = "none";
+    ajoutimage.appendChild(picture);
+}
+
+function catoption() {
+    //affichage des catégories dans le formulaire
+    
+    const formWorkcat = document.querySelector("#category");
+    formWorkcat.innerHTML = "";
+    // const defaultOption = document.createElement("option");
+    // defaultOption.value = "";
+    // defaultOption.textContent = "";
+    // defaultOption.disabled = true;
+    // formWorkcat.appendChild(defaultOption);
+    workcategories.forEach((category) => {
+        if (category.id > 0) {
+            const option = document.createElement("option");
+            option.value = category.name;
+            option.textContent = category.name;
+            option.classList.add("options");
+            formWorkcat.appendChild(option);
+            option.dataset.id = category.id;
+            console.log(option.dataset.id); 
+        }
+    }); 
+    formWorkcat.options[0].selected = true; // Par défaut c'est l'option Tous (position 0)
 }
 
 
+//controle du formulaire et envois de la requête 
+const formAddWork = document.querySelector("#modal__ajout__work");
+const formWorkcat = document.querySelector("#category");
+const formWorkimage = document.querySelector("#image");
+const formWorkTitle = document.querySelector("#title");
+const inputs = [formWorkimage, formWorkTitle, formWorkcat];
+inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+        const allInputsFilled = inputs.every((input) => input.value !== "");
+        if (allInputsFilled) {
+            document.querySelector("#work-submit").style.backgroundColor = "#1D6154";
+        } else {
+            document.querySelector("#work-submit").style.backgroundColor = "#BFBFBF";
+        }
+    });
+});
+formAddWork.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let iserror = false;
+    const selectedOption = formWorkcat.options[formWorkcat.selectedIndex];
+    // Sélection de l'option
+    const categoryId = selectedOption.getAttribute("data-id");
+    // Récupération de l'id de la catégorie sélectionnée
+    const workFormData = new FormData();
+    workFormData.append("image", formWorkimage.files[0]);
+    workFormData.append("title", formWorkTitle.value);
+    workFormData.append("category", categoryId);
+
+    fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${logged}`,
+            },
+            body: workFormData,
+            })
+            .then((response) => {
+                if (response.ok) {
+                    modalclose();
+                    return response.json();
+                } 
+                else {
+                    iserror = true;
+                    const error = document.querySelector("#error");
+                    if (error != null) {
+                        error.innerHTML = "Veuillez renseigner tous les champs";
+                    } else {
+                        const errorMessage = document.createElement("p");
+                        errorMessage.setAttribute("id", "error");
+                        errorMessage.innerHTML = "Veuillez renseigner tous les champs";
+                        formWorkcat.after(errorMessage);
+                    }
+                }
+            })
+            // .then((data) => {
+            //     if (!iserror) {
+            //         // workslist.push(data);
+            //     }
+            // })
+    })
+
+
+function deleteAll() {
+    const deleteAllWorks = document.querySelector(".suppression__gallerie");
+    workslist.forEach((work) => {
+        const id = work.id;
+        deleteAllWorks.addEventListener("click", () => {
+        fetch(`http://localhost:5678/api/works/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${logged}`,
+                },
+        })
+            .then((response) => {
+                if (response.ok) {
+                workslist = [];
+                // displayWorks();
+                // displayModalGallery();
+                modalclose();
+                }
+            }).then((data) => {
+                workslist.push(data);
+            })
+        });
+    });
+}

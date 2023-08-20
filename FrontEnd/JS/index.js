@@ -71,7 +71,7 @@ function modalup() {
     modal__gallerie.innerHTML="";
     gallerybuildermodale();
     // formsend();
-    // deleteAll();
+    deleteAll();
     const addgallerie = document.querySelector(".btn__ajout__gallerie");
     let modalwork = document.querySelector(".modal__gallerie__wrapper");
     let modalimage = document.querySelector(".modal__ajout__wrapper");
@@ -294,12 +294,11 @@ function previewimage(e) {
     const fileExtension = /\.(jpe?g|png)$/i; //on prépare pour la vérif d'extension
     if (
         e.target.files.length === 0 ||
-        !fileExtension.test(e.target.files[0].name) //on verifie si le nom porte la bonne extension "files[0]"
+        !fileExtension.test(e.target.files[0].name) //on verifie si le nom porte la bonne extension
         ) {
         return;
         }
-
-    const fichier_image = e.target.files[0]; //files[0]
+    const fichier_image = e.target.files[0]; 
     fileReader = new FileReader();
     fileReader.readAsDataURL(fichier_image);
     fileReader.addEventListener("load", (e) => afficherpreview(e));

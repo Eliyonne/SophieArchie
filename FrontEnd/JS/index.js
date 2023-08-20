@@ -14,7 +14,8 @@ function Login() {
         logIn.style.cursor = "pointer";
         logIn.addEventListener("click", () => LogOut());
         changeinterface_banner();
-        changeinterface_gallerie()
+        changeinterface_gallerie();
+        changeinterface_hero();
         const filter = document.querySelector(".filter");
         filter.style.display = "none"
     }
@@ -54,7 +55,23 @@ function changeinterface_gallerie() {
     const gallerie_tittle = document.querySelector(".portfolio__tittle");
     gallerie_edit.style.cursor = "pointer";
     gallerie_tittle.append(gallerie_edit);
+}
 
+//changement interface titre et photo de présentation
+function changeinterface_hero() {
+    //Modification image présentation
+    const imageedit = document.createElement("div");
+    imageedit.classList.add("btn-edit", "btn-edit-picture")
+    imageedit.innerHTML = '<img src ="/FrontEnd/assets/icons/edition-white.svg"><p>modifier</p>';
+    const introduction = document.querySelector("#introduction > figure");
+    introduction.appendChild(imageedit);
+
+    //Modification titre
+    const titreedit = document.createElement("div");
+    titreedit.classList.add("btn-edit", "btn-edit-title");
+    titreedit.innerHTML = '<img src="/FrontEnd/assets/icons/edition-white.svg"><p>modifier</p>';
+    const article = document.querySelector("article");
+    article.prepend(titreedit);
 }
 
 document.querySelector(".modal__call").addEventListener("click", modalup);
@@ -70,7 +87,6 @@ function modalup() {
     const modal__gallerie = document.querySelector(".modal__gallerie");
     modal__gallerie.innerHTML="";
     gallerybuildermodale();
-    // formsend();
     deleteAll();
     const addgallerie = document.querySelector(".btn__ajout__gallerie");
     let modalwork = document.querySelector(".modal__gallerie__wrapper");
@@ -106,18 +122,12 @@ function modalup() {
         let title_input = document.getElementById("title");
         select.selectedIndex = 0;
         title_input.value = '';
-        // formbuilder();
         catoption();
 
     })
 
-    window.onclick = function(event) { //peut-être à refaire
+    window.onclick = function(event) { 
         if (event.target == modal) {
-            // modal.style.display = "none";
-            // modalwork.style.display = "flex";
-            // modalimage.style.display = "none";
-            // navback.style.display = "none";
-            // navbar.classList.remove("justify-space");
             modalclose();
         }
     }
@@ -157,10 +167,14 @@ function cleaninterface() {
     editmode.remove();
     const gallerie_edit = document.querySelector(".modal__call");
     gallerie_edit.remove();
+    const imageeditor = document.querySelector(".btn-edit-picture");
+    imageeditor.remove();
+    const titreeditor = document.querySelector(".btn-edit-title");
+    titreeditor.remove();
     const header = document.querySelector("header");
     header.style.margin = "50px 0px 100px 0px";
     const filter = document.querySelector(".filter");
-    filter.style.display = "flex"
+    filter.style.display = "flex";
 }
 
 //récupération des traveaux
@@ -249,7 +263,6 @@ async function gallerybuildermodale() {
                 <figcaption><p>editer</p></figcaption>`
                 work.classList.add("modal__work")
                 document.querySelector(".modal__gallerie").appendChild(work);
-                //on a déplacer supprimer()
             };
     supprimer();
 
@@ -306,7 +319,7 @@ function previewimage(e) {
 
 
 
-//affichage de la preview (à modifier)
+//affichage de la preview
 function afficherpreview(e) {
     const ajoutimage = document.querySelector(".ajout__image");
     let picture = document.createElement("img");
@@ -329,11 +342,6 @@ function catoption() {
     
     const formWorkcat = document.querySelector("#category");
     formWorkcat.innerHTML = "";
-    // const defaultOption = document.createElement("option");
-    // defaultOption.value = "";
-    // defaultOption.textContent = "";
-    // defaultOption.disabled = true;
-    // formWorkcat.appendChild(defaultOption);
     workcategories.forEach((category) => {
         if (category.id > 0) {
             const option = document.createElement("option");

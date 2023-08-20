@@ -158,6 +158,42 @@ li:hover {
 
 }
 
+.btn-edit {
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-edit p {
+	font-size: 14px;
+	font-weight: 400;
+	color: #000000;
+	margin-top: 7px;
+}
+
+.btn-edit-title {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 6px;
+	cursor: pointer;
+	width: fit-content;
+	position: absolute;
+	margin-top: -35px;
+	margin-left: 2px;
+}
+
+.btn-edit-picture {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 6px;
+	cursor: pointer;
+	width: fit-content;
+	position: absolute;
+	margin-top: 15px;
+    margin-left: 57px;
+} 
+
 .modal {
 	display: none;
 	flex-direction: column;
